@@ -1,0 +1,7 @@
+.gitignore
+test
+*_test.go
+TestResults*.json
+*.out
+go.work
+*.test
