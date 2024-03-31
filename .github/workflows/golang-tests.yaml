@@ -30,4 +30,4 @@ jobs:
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           language: "go"
-          coverage-reports: .
+          coverage-reports: cover.out
