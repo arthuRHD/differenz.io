@@ -7,7 +7,7 @@ COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
 
-RUN go build
+RUN go build -o ./server ./...
 
 FROM scratch
 COPY --from=builder /app/server /server
