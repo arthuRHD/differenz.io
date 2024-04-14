@@ -11,4 +11,5 @@ RUN go build -o ./server ./...
 
 FROM scratch
 COPY --from=builder /app/server /server
+COPY --from=builder /app/db /db
 ENTRYPOINT ["/server"]
