@@ -38,7 +38,7 @@ func sqlConnection() error {
 	}
 	defer db.Close()
 
-	path := filepath.Join("db", "init.sql")
+	path := filepath.Join("scripts", "init.sql")
 
 	c, ioErr := os.ReadFile(path)
 	if ioErr != nil {
