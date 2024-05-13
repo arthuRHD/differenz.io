@@ -11,14 +11,16 @@ type Pageable struct {
 	Number int `json:"number"`
 }
 
-type Endpoint func(w http.ResponseWriter, r *http.Request) (int, error)
+type Endpoint func(w http.ResponseWriter, r *http.Request) error
 
-func makeHTTPHandler(endpoint Endpoint) http.HandlerFunc {
+func ErrorMiddleware(endpoint Endpoint) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		if status, err := endpoint(w, r); err != nil {
+		if err := endpoint(w, r); err != nil {
 			log.Println(err.Error())
-			if err := JSONEncode(w, status, err); err != nil {
-				panic(err)
+			if err, ok := err.(APIError); ok {
+				JSONEncode(w, err.Status, err.Details)
+			} else {
+				JSONEncode(w, http.StatusInternalServerError, "Internal server error")
 			}
 		}
 	}
